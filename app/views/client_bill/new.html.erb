@@ -1,0 +1,211 @@
+<script>
+$(document).ready(function() {
+
+	// Update total
+	$("#total").val(<%= @body_temps.sum("quantity * price") %>); 
+
+	// It's called here so you can delete after html loads.
+	MakeDeleteButtonWork();
+	// Store in database with Ajax
+		$('#button_add').click(function(){ // use event as per your need
+			var data_temp = {
+				id: $('#id_prod').val(),
+				quantity: $('#quantity').val(),
+				price: $('#price').val(),
+				ip: $('#ip').val()
+			}
+	       $.ajax({
+	              type: "POST",
+	              url:    "/client_bill/add_to_temp", // should be mapped in routes.rb
+	              data:  {term: JSON.stringify(data_temp)},
+	              datatype:"json", // check more option
+	              success: function(data) {
+	                       // handle response data               
+	                   			$("#theform").html(data);
+	                   			MakeDeleteButtonWork();
+	                   			// Set fields in blank
+	                   			$("#id_prod").val('');
+	                   			$("#query").val('');
+	                   			$("#quantity").val('');
+	                   			$("#price").val('');
+	                   			$("#total").val(<%= @body_temps.sum("quantity * price") %>);
+	                       },
+	              error: function(xhr, status, error) {
+						  //var err = eval("(" + xhr.responseText + ")");
+						  //alert(err.Message);
+						  alert("Ingrese correctamente los valores. Elija un producto existente.");
+						  },
+	        }); 
+		});
+	
+
+	// It's used this way, so onInvalidateSelection works fine
+	$('#query').focus(function() {
+  		$('#query').val('')
+	});
+	
+	// Autocomplete product
+	$('#query').autocomplete({
+		params: {query: $("#query").val()},
+	    serviceUrl: '/client_bill/suggestions',
+	    minChars: 2,
+	    formatResult: function (suggestion, currentValue) {
+	    	return (suggestion.value + " " + suggestion.cod)
+	    },
+	    onSelect: function (suggestion) {
+	        $('#id_prod').val(suggestion.id)
+	        $('#query').val(suggestion.value + " " + suggestion.cod)
+	    },
+	    onInvalidateSelection: function () {
+	    	$('#id_prod').val('')
+	    }
+	});
+
+	// It's used this way, so onInvalidateSelection works fine
+	$('#client_name').focus(function() {
+  		$('#client_name').val('')
+  		$('#ruc').val('')
+	});
+
+	// Autocomplete client
+	$('#client_name').autocomplete({
+		params: {query: $("#client_name").val()},
+	    serviceUrl: '/client_bill/suggestions_client',
+	    minChars: 2,
+	    width: 300,
+	    formatResult: function (suggestion, currentValue) {
+	    	return (suggestion.value + " " + suggestion.last_name)
+	    },
+	    onSelect: function (suggestion) {
+	        $('#client_id').val(suggestion.id)
+	        $('#client_name').val(suggestion.value + " " + suggestion.last_name)
+	        $('#ruc').val(suggestion.cod)
+	        $('#head_type_financiado').removeAttr( "disabled" )
+	    },
+	    onInvalidateSelection: function () {
+	    	$('#client_id').val('')
+	    	$('#head_type_financiado').attr( 'disabled', 'disabled' )
+	    }
+	});
+
+
+}); // End of $(document).ready
+
+// It's outside $(document).ready because it needs to be called after every success
+function MakeDeleteButtonWork(){
+	// Delete product from temp table
+	$('.delete_record').click(function(){ // use event as per your need
+			$.ajax({
+	              type: "POST",
+	              url:    "/client_bill/delete_row", // should be mapped in routes.rb
+	              data:  {term: get_id_from_string(this.id)},
+	              datatype:"json", // check more option
+	              success: function(data) {
+	                       // handle response data               
+	                   			$("#theform").html(data);
+	                   			MakeDeleteButtonWork();
+	                       },
+	    
+	        });  
+	        // Update total
+	        $("#total").val(<%= @body_temps.sum("quantity * price") %>);     
+		});
+
+	// Function to split id from button. Used for deleting records
+	function get_id_from_string(str) {
+    	return str.split('_')[1];
+	}
+
+}
+
+function updateTotal(){
+	// Update total
+	$("#total").val(<%= @body_temps.sum("quantity * price") %>); 
+}
+</script>
+
+<div class="page-header">
+	<h2>Facturación</h2>
+</div>
+
+<h1><small>Agregar producto</small></h1>
+
+	<div class="row">
+			<%= label_tag :id, "ID Producto", :class => 'hidden' %>
+			<%= text_field_tag :id, nil,:class => 'form-control hidden', :id=>"id_prod" %>
+		<div class="col-md-5 form-group">
+			<%= label_tag :name, "Nombre" %>
+			<%= text_field_tag :name, nil,:class => 'form-control', :id=>"query" %>
+		</div>
+		<div class="col-md-1 form-group">
+			<%= label_tag :quantity, "Cant." %>
+			<%= text_field_tag :quantity, nil,:class => 'form-control blocked' %>
+		</div>
+		<div class="col-md-3 form-group">
+			<%= label_tag :price, "Precio" %>
+			<%= text_field_tag :price, nil,:class => 'form-control blocked' %>
+		</div>
+		<div class="col-md-3 form-group">
+			
+			<%= text_field_tag :ip, request.remote_ip,:class => 'form-control hidden' %>
+		</div>
+	</div>
+	<%= button_tag "Add", :class => 'btn btn-primary pull-right form-group', :id => 'button_add' %>
+
+
+
+<!-- Render the table -->
+	<div id="theform">
+		<%= render(:partial => 'table', :locals => {:body_temp => @body_temp}) %>
+	</div>
+
+<!-- Bill_head  -->
+<h1><small>Detalles de cabecera</small></h1>
+
+<div class="well">
+		<%= form_for :head, :url => "/client_bill/save" do |f| %>
+			<div class="row">			
+				<div class="col-md-3">
+					<div class="form-group">
+						<%= f.label :date, 'Fecha' %>:
+		 				<%= f.text_field :date, :class => 'form-control blocked datepicker', :value => Time.now.strftime("%Y/%m/%d") %>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group">
+						<%= f.label :number, 'Núm. Factura' %>:
+		 				<%= f.text_field :number, :class => 'form-control' %>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<%= f.label :client_id, 'Nombre o razón social' %>:
+						<%= text_field_tag :client_name, nil,:class => 'form-control' %>
+		 				<%= f.hidden_field :client_id, :id => "client_id" %>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<%= f.label :ruc, 'RUC' %>:
+						<%= text_field_tag :ruc, nil,:class => 'form-control'%>
+					</div>
+				</div>
+			</div>
+			<div class="row">	
+
+						<!-- <%= f.label :total, 'Total' %>: -->
+				 		<%= f.hidden_field :total, :class => 'form-control', :id => "total" %>
+	
+				<div class="col-md-4">
+						<div class="form-group">
+							<%= f.label :type, 'Forma de pago' %>:
+					 		<!-- <%= f.text_field :type, :class => 'form-control' %> -->
+							<%= radio_button("head", "type", "financiado", :disabled => true) %> Financiado
+							<%= radio_button("head", "type", "contado", :checked => true) %> Contado
+						</div>
+
+				</div>
+			</div>
+			<%= f.submit 'Guardar', :class =>"btn btn-primary" %>
+		<% end %>
+</div>

@@ -1,0 +1,26 @@
+<% if notice %>
+	<div class="alert alert-success">
+		<%= notice %>
+	</div>
+<% end %>
+<div class="row">
+	<div class="col-md-5">
+		<div class="page-header">
+  			<h2><%= @supplier.name %></h2>
+		</div>
+				<p>
+				  <strong>Dirección:</strong>
+				  <%= @supplier.direction %>
+				</p>
+
+				<p>
+				  <strong>Teléfono:</strong>
+				  <%= @supplier.phone %>
+				</p>
+
+	</div>
+</div>
+<%= link_to 'Vendedores', supplier_salesmen_path(@supplier), :class => "btn btn-default" %> 
+
+<%= link_to 'Editar', edit_supplier_path(@supplier), :class => "btn btn-default" %> 
+<%= link_to 'Atrás', suppliers_path, :class => "btn btn-default" %>

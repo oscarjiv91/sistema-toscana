@@ -1,0 +1,37 @@
+<div class="page-header">
+  <h2>Lista de clientes</h2>
+</div>
+<%= link_to 'Nuevo cliente', new_client_path, :class => "btn btn-primary pull-right" %>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Cód</th>
+      <th>Apellido</th>
+      <th>Nombre</th>
+      <th>Address</th>
+      <th>Job address</th>
+      <th>Obs</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @clients.each do |client| %>
+      <tr>
+        <td><%= number_with_delimiter(client.cod, delimiter: ".") %></td>
+        <td><%= client.last_name %></td>
+        <td><%= client.name %></td>
+        <td><%= client.address %></td>
+        <td><%= client.job_address %></td>
+        <td><%= client.obs %></td>
+        <td><%= link_to 'Más...', client %></td>
+        <td><%= link_to 'Editar', edit_client_path(client) %></td>
+        <td><%= link_to 'Eliminar', client, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

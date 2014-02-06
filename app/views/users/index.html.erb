@@ -1,0 +1,36 @@
+<div class="page-header">
+  <h2>Lista de usuarios</h2>
+</div>
+
+<%= link_to 'Nuevo usuario', new_user_path, :class => "btn btn-primary pull-right" %>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Username</th>
+
+      <th>Nombre</th>
+      <th>Grupo</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.username %></td>
+
+        <td><%= user.name %></td>
+        <td><%= user.user_group.group %></td>
+        <td><%= link_to 'Mostrar', user %></td>
+        <td><%= link_to 'Editar', edit_user_path(user) %></td>
+        <td><%= link_to 'Eliminar', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+

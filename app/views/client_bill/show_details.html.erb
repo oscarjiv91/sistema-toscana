@@ -1,0 +1,29 @@
+<div class="page-header">
+	<h2>Detalles de la factura <%= @client_bill_head.number %></h2>
+</div>
+<% if !@records.empty? %>
+<div style="padding-top: 5%">
+	<table class="table table-bordered">
+			<thead>
+		    <tr>
+		      <th>Cant.</th>
+		      <th>Producto</th>
+		      <th>Precio unit.</th>
+		      <th>Total prod.</th>
+		    </tr>
+			</thead>
+			<tbody>
+				<% @records.each do |r| %>
+			      <tr>
+			        <td><%= r.quantity %></td>
+			        <td><%= Product.find(r.product_id).name %> <%= Product.find(r.product_id).cod %></td>
+			        <td><%= number_with_delimiter(r.price, delimiter: ".") %></td>
+			        <td><%= number_with_delimiter(r.price*r.quantity, delimiter: ".") %></td>
+			      </tr>
+			    <% end %>
+		</tbody>
+	</table>
+</div>
+<% end %>
+
+<a href="/client_bill/index"><button class="btn btn-default">Atrás</button></a>

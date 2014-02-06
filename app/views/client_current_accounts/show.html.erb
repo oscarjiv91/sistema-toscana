@@ -1,0 +1,65 @@
+<div class="page-header">
+  <h2>Detalle de cuenta de <%= @client.name %></h2>
+</div>
+
+<!-- Data about current account -->
+<p><strong>Monto total de la cuenta:</strong> <%= number_with_delimiter(@account_detail.client_bill_head.total, delimiter: ".") %> </p>
+<p><strong>Entrega: </strong>
+<% if !@first_payment.empty? %>
+		<%= number_with_delimiter(@first_payment.first.ammount, delimiter: ".") %> 
+	<% else %>
+		Sin entrega.
+<% end %></p>
+<p><strong>Cantidad de cuotas: </strong> <%= @account_detail.client_fees.count %></p>
+<p><strong>Saldo:</strong> <%= number_with_delimiter(@account_detail.client_bill_head.total - ClientReceipt.where("client_current_account_id = #{@account_detail.id}").sum("ammount"), delimiter: ".") %></p>
+
+
+<!-- Table -->
+<h1><small>Cuotas</small></h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Monto</th>
+      <th>Fecha de vencimiento</th>
+      <th>Fecha de pago</th>
+      <th>Monto pagado</th>
+      <th>Recibo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @account_detail.client_fees.order('id ASC').each do |f| %>
+      <tr>
+        <td><%= number_with_delimiter(f.ammount, delimiter: ".") %></td>
+        <td><%= f.expiration_date %></td>
+        <td><%= f.payment_date %></td>
+        <td><%= f.ammount_paid %></td>  
+        <td><% if !f.client_receipt.nil? %><%= f.client_receipt.number %> <% end %></td>
+    <% end %>
+  </tbody>
+</table>
+
+<!-- Lista de recibos ligadas a esta cuenta -->
+<h1><small>Recibos de esta cuenta</small></h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Num. Recibo</th>
+      <th>Monto</th>
+      <th>Fecha de emision</th>
+      <th>Descripcion</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @account_detail.client_receipt.each do |r| %>
+      <tr>
+        <td><%= r.number %></td>
+        <td><%= number_with_delimiter(r.ammount, delimiter: ".") %></td>
+        <td><%= r.date %></td>
+        <td><%= r.description %></td>   
+        <td><% if r.first_payment != 1 %><%= link_to 'Eliminar', receipt_destroy_path(r), method: :delete, data: { confirm: 'Are you sure?' } %> <% end %></td>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Atrás", @client, :class =>"btn btn-default" %>

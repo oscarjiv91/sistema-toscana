@@ -1,0 +1,47 @@
+<div class="page-header">
+  <h2>Facturas de compras</h2>
+</div>
+
+<%= form_tag url_for(:controller => 'supplier_bill', :action => 'index'), :method => 'get' do %>
+  <div class="row">
+    <div class="form-group col-md-3">
+      <%= text_field_tag :supplier, params[:supplier], :class => "form-control", :placeholder => "proveedor..." %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= text_field_tag :product, params[:product], :class => "form-control", :placeholder => "producto..." %>
+    </div>
+    <%= submit_tag "Buscar", :name => nil, :class => "btn btn-primary" %>
+   </div>
+<% end %>
+
+
+<table class="table table-hover">
+  <thead>
+    <tr>      
+      <th>Número de factura</th>
+      <th>Fecha</th>
+      <th>Total</th>
+      <th>Proveedor</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @supplier_bills.each do |sp| %>
+      <tr>
+        <td><%= sp.number %></td>
+        <td><%= sp.date %></td>
+        <td><%=  number_with_delimiter( (number_with_precision(sp.total, precision: 0)), delimiter: ".") %></td>
+        <td><%= sp.supplier.name %></td>
+        <td><%= link_to 'Ver',  "/supplier_bill/show/#{sp.id}" %></td>
+        <td><%= link_to 'Eliminar', sp, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= will_paginate @supplier_bills %>
+

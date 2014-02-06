@@ -1,0 +1,25 @@
+<%= form_for(@iva) do |f| %>
+  <% if @iva.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@iva.errors.count, "error") %> prohibited this iva from being saved:</h2>
+
+      <ul>
+      <% @iva.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="row">
+  <div class="col-md-3">
+    <div class="form-group">
+      <%= f.label :iva %><br>
+      <%= f.number_field :iva, :class => "form-control" %>
+    </div>
+  </div>
+</div>
+  <div class="actions">
+    <%= f.submit "Guardar", class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -1,0 +1,29 @@
+<h1>% de IVA</h1>
+
+<div class="row">
+  <div class="col-md-4">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>IVA</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @ivas.each do |iva| %>
+          <tr>
+            <td><%= iva.iva %></td>
+            <td><%= link_to 'Editar', edit_iva_path(iva) %></td>
+            <td><%= link_to 'Eliminar', iva, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<br>
+
+<%= link_to 'Nuevo', new_iva_path, :class => 'btn btn-primary' %>

@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @salesman.name %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @salesman.phone %>
+</p>
+
+<p>
+  <strong>Supplier:</strong>
+  <%= @salesman.supplier_id %>
+</p>
+
+<%= link_to 'Edit', edit_supplier_salesman_path(@supplier, @salesman) %> |

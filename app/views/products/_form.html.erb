@@ -1,0 +1,92 @@
+<%= form_for(@product) do |f| %>
+  
+  <% if @product.errors.any? %>
+    <div class="alert alert-danger">
+      <div id="error_explanation">
+        <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+        <ul>
+        <% @product.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :Categoría %>
+        <%= f.collection_select(:category_id, @categories, :id, :name, {},{:class=>"form-control"}) %> <!-- foreign key, object to display, primary key, atributte to display -->
+      </div>
+    </div>
+  </div>  
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :Nombre %><br>
+        <%= f.text_field :name, :class => "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :Código %><br>
+        <%= f.text_field :cod, :class => "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group">
+         <%= f.label :Descripción %><br>
+         <%= f.text_field :description, :class => "form-control" %>
+      </div>
+    </div>
+  </div>  
+
+  <div class="row">
+    <div class="col-md-2">
+      <div class="form-group">
+        <%= f.label :Recargo %>(%)<br>
+        <%= f.number_field :surcharge, :class => "form-control" %>
+      </div>
+    </div>
+  </div>  
+
+  <div class="row">
+    <div class="col-md-2">
+      <div class="form-group">
+          <%= f.label :IVA %>
+          <%= f.collection_select(:iva_id, @ivas, :id, :iva, {},{:class=>"form-control"}) %> <!-- foreign key, object to display, primary key, atributte to display -->
+      </div>
+    </div>
+  </div>
+
+
+  <%= f.fields_for :product_datum do |p| %>  
+   <div class="row">
+    <div class="col-md-4">
+      <div class="form-group"> 
+           <%= f.label :Costo %>
+          <%= p.text_field :price, :class => "form-control" %>  
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+         <%= f.label :Stock %>
+          <%= p.text_field :quantity,:class => "form-control" %>  
+      </div>
+    </div>
+  </div>
+  <% end %>  
+
+  <%= f.submit "Guardar", class: "btn btn-primary" %>
+<% end %>

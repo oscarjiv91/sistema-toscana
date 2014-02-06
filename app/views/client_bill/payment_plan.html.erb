@@ -1,0 +1,86 @@
+
+<% if notice %>
+  <div class="alert alert-success">
+    <%= notice %>
+  </div>
+<%end%>
+
+<div class="page-header">
+  <h2>Plan de pago</h2>
+</div>
+
+<dl>
+  <dt>Cliente </dt>
+  <dd><%= @client.name + @client.last_name %></dd>
+  <dt>Factura num. </dt>
+  <dd><%= @client_bill.number %></dd>
+  <dt>Total </dt>
+  <dd><%= number_with_delimiter(@client_bill.total, delimiter:".") %> Gs.</dd>
+</dl>
+
+
+
+<%= form_tag :controller => :client_bill, :action => :save_payment_plan, :method => 'get' do %>
+  <div class="row">
+    <div class="form-group col-md-3">
+      <%= label_tag "Entrega" %>
+      <%= text_field_tag :first_payment, params[:first_payment], :class => "form-control" %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= label_tag "Num. Recibo" %>
+      <%= text_field_tag :receipt, params[:receipt], :class => "form-control" %>
+    </div>
+    <div class="form-group col-md-5">
+      <%= label_tag "En concepto de:" %>
+      <%= text_field_tag :description, params[:description], :class => "form-control", :value => "Entrega por factura número #{@client_bill.number}" %>
+    </div>
+   </div>
+
+    <div class="row">
+    <div class="form-group col-md-2">
+      <%= label_tag "Cant. de cuotas" %>
+      <%= text_field_tag :quantity, params[:quantity], :class => "form-control" , :value => 0 %>
+    </div>
+    <div class="cuotas">
+      <div class="form-group col-md-3">
+        <%= label_tag "Monto de cuota" %>
+        <%= text_field_tag :ammount, params[:ammount], :class => "form-control" %>
+      </div>
+    </div>
+   </div>
+
+    <div class="row">
+    <div class="form-group col-md-2">
+      <%= text_field_tag :quantity2, params[:quantity2], :class => "form-control", :value => 0 %>
+    </div>
+    <div class="cuotas">
+      <div class="form-group col-md-3">
+        <%= text_field_tag :ammount2, params[:ammount2], :class => "form-control " %>
+      </div>
+    </div>
+   </div>
+
+  <div class="row">
+    <div class="form-group col-md-2">
+      <%= text_field_tag :quantity3, params[:quantity3], :class => "form-control", :value => 0 %>
+    </div>
+    <div class="cuotas">
+      <div class="form-group col-md-3">
+        <%= text_field_tag :ammount3, params[:ammount3], :class => "form-control " %>
+      </div>
+    </div>
+   </div>
+
+  <div class="row">
+    <div class="form-group col-md-4">
+      <%= label_tag "Vencimiento de 1ra cuota" %>
+      <%= text_field_tag :expiration_date, params[:expiration_date], :class => "form-control", :value => Time.now.strftime("%Y/%m/%d") %>
+    </div>
+   </div>
+
+    <%= text_field_tag :current_account_id, params[:current_account_id], :class => "form-control hidden", :value => @current_account.id %>
+
+    <%= text_field_tag :client__id, params[:client_id], :class => "form-control hidden", :value => @client.id %>
+
+   <%= submit_tag "Guardar", :name => nil, :class => "btn btn-primary" %>
+<% end %>

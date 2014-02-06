@@ -1,0 +1,42 @@
+<div class="page-header">
+  <h2>Facturas de ventas</h2>
+</div>
+
+<%= form_tag url_for(:controller => 'client_bill', :action => 'index'), :method => 'get' do %>
+  <div class="row">
+    <div class="form-group col-md-3">
+      <%= text_field_tag :product, params[:product], :class => "form-control", :placeholder => "producto..." %>
+    </div>
+    <%= submit_tag "Buscar", :name => nil, :class => "btn btn-primary" %>
+   </div>
+<% end %>
+
+
+<table class="table table-hover">
+  <thead>
+    <tr>      
+      <th>Número de factura</th>
+      <th>Fecha</th>
+      <th>Total</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @client_bills.each do |sp| %>
+      <tr>
+        <td><%= sp.number %></td>
+        <td><%= sp.date %></td>
+        <td><%= number_with_delimiter(sp.total, delimiter: ".") %></td>
+        <td><%= link_to 'Ver', "show/#{sp.id}" %></td>
+        <td><%= link_to 'Eliminar', sp, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= will_paginate @client_bills %>
+

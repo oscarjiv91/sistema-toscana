@@ -1,0 +1,37 @@
+<% if !@body_temps.empty? %>
+<div style="padding-top: 5%">
+	<table class="table table-bordered">
+			<thead>
+		    <tr>
+		      <th>Cant.</th>
+		      <th>Producto</th>
+		      <th>Precio unit.</th>
+		      <th>Total prod.</th>
+		      <th>IP</th>
+		      <th></th>
+		    </tr>
+			</thead>
+			<tbody>
+				<% @body_temps.each do |temp| %>
+			      <tr>
+			        <td><%= temp.quantity %></td>
+			        <td><%= Product.find(temp.product_id).name %> <%= Product.find(temp.product_id).cod %></td>
+			        <td><%= number_with_delimiter(temp.price, delimiter: ".") %></td>
+			        <td><%= number_with_delimiter(temp.price*temp.quantity, delimiter: ".") %></td>
+			        <td><%= temp.user_id %></td>
+			        <td><a href="#" class="delete_record" id="delete_<%= temp.id %>">Quitar</a></td>
+			      </tr>
+			    <% end %>
+		</tbody>
+		 <tfoot>
+		    <tr>
+			    <td></td>
+			    <td></td>
+			    <td><strong>Total</strong></td>
+			    <td><%= label_tag :total, number_with_delimiter(@body_temps.sum("quantity * price"), delimiter: ".")%></td>
+		    </tr>
+		 </tfoot>
+	</table>
+</div>
+<% end %>
+

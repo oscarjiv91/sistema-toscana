@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ammount: 1
+  expiration_date: 2014-01-23
+  payment_date: 2014-01-23
+  client_current_account_id: 1
+  receipt_id: 1
+
+two:
+  ammount: 1
+  expiration_date: 2014-01-23
+  payment_date: 2014-01-23
+  client_current_account_id: 1
+  receipt_id: 1

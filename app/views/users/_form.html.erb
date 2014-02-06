@@ -1,0 +1,59 @@
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <div id="error_explanation">
+        <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+        <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :username %><br>
+        <%= f.text_field :username, :class => "form-control" %>
+      </div>
+    </div>
+  </div>   
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :password %><br>
+        <%= f.text_field :password, :class => "form-control"  %>
+      </div>
+    </div>
+  </div>   
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :password_confirmation %><br>
+        <%= f.text_field :password_confirmation, :class => "form-control"  %>
+      </div>
+    </div>
+  </div>   
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :name %><br>
+        <%= f.text_field :name, :class => "form-control"  %>
+      </div>
+    </div>
+  </div>   
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :user_group_id %><br>
+        <%= f.number_field :user_group_id, :class => "form-control"  %>
+      </div>
+    </div>
+  </div>  
+  <div class="actions">
+    <%= f.submit "Guardar", :class => "btn btn-primary" %>
+  </div>
+<% end %>

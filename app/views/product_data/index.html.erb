@@ -1,0 +1,31 @@
+<h1>Listing product_data</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Product</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @product_data.each do |product_datum| %>
+      <tr>
+        <td><%= product_datum.quantity %></td>
+        <td><%= product_datum.price %></td>
+        <td><%= product_datum.product_id %></td>
+        <td><%= link_to 'Show', product_datum %></td>
+        <td><%= link_to 'Edit', edit_product_datum_path(product_datum) %></td>
+        <td><%= link_to 'Destroy', product_datum, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Product datum', new_product_datum_path %>

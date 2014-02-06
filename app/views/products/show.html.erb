@@ -1,0 +1,36 @@
+<% if notice %>
+  <div class="alert alert-success">
+    <%= notice %>
+  </div>
+<%end%>
+
+<div class="page-header">
+  <h2><%= @product.name %></h2>
+</div>
+      <p>
+        <strong>Código:</strong>
+        <%= @product.cod %>
+      </p>
+
+      <p>
+        <strong>Descripción:</strong>
+        <%= @product.description %>
+      </p>
+
+      <p>
+        <strong>Porcentage de recargo:</strong>
+        <%= @product.surcharge %>%
+      </p>
+
+      <p>
+        <strong>Categoría:</strong>
+        <%= @product.category.name %>
+      </p>
+
+      <p>
+        <strong>IVA:</strong>
+        <%= @product.iva.iva %>%
+      </p>
+
+<%= link_to 'Editar', edit_product_path(@product), :class => "btn btn-default" %>
+<%= link_to 'Atrás', products_path, :class => "btn btn-default" %>

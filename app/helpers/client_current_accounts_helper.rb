@@ -1,0 +1,2 @@
+module ClientCurrentAccountsHelper
+end

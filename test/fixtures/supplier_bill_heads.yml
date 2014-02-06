@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2013-12-12
+  number: MyString
+  type: 
+  total: 1.5
+  supplier_id: 1
+  payment_id: 1
+
+two:
+  date: 2013-12-12
+  number: MyString
+  type: 
+  total: 1.5
+  supplier_id: 1
+  payment_id: 1

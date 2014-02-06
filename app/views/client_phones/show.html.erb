@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @client_phone.phone %>
+</p>
+
+<p>
+  <strong>Client:</strong>
+  <%= @client_phone.client_id %>
+</p>
+
+<%= link_to 'Editar', edit_client_phone_path(@client_phone), :class => "btn btn-default" %> 
+<%= link_to 'Atrás', client_phones_path %>

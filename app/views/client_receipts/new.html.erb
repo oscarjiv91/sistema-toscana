@@ -1,0 +1,104 @@
+<script>
+$(document).ready(function() {
+
+	// Autocomplete client
+	$('#client_name').autocomplete({
+		params: {query: $("#client_name").val()},
+	    serviceUrl: '/client_receipts/suggestions_client',
+	    minChars: 2,
+	    width: 300,
+	    formatResult: function (suggestion, currentValue) {
+	    	return (suggestion.value + " " + suggestion.last_name)
+	    },
+	    onSelect: function (suggestion) {
+	    	$.ajax({
+	    		url: "/client_receipts/get_accounts",
+	    		type: "GET",
+	    		data:  {query: JSON.stringify(suggestion.id)},
+	    		datatype: "json",
+	    		success: function(data) {
+	                       // handle response data
+	                       //alert(data.length);
+	                       // Search each object in array
+	                       $("#accounts" ).append("<ul>")
+	                       for(var k in data) {
+							   //alert( data[k].id);
+							   $("#accounts" ).append("<li>"+"Factura " + data[k].client_bill_head_id +" "+"<input type=\"radio\" name=\"account\" value=\""+data[k].id+"\">" +"</li>");
+							}
+	                   		$("#accounts" ).append("</ul>")	
+	                       },
+	              error: function(xhr, status, error) {
+						  //var err = eval("(" + xhr.responseText + ")");
+						  //alert(err.Message);
+						  alert("Ingrese correctamente los valores. Elija un producto existente.");
+						  },
+
+	    	});
+
+	    },
+	    onInvalidateSelection: function () {
+	    		  $("#accounts" ).html("");
+	    }
+	});
+
+}); 
+
+</script>
+
+<div class="page-header">
+  <h2>Generar recibo</h2>
+</div>
+
+<%= form_tag('/client_receipts/create') do %>
+
+<div class="row">
+	<div class="col-md-5">
+		<div class="form-group">
+			<%= label_tag :client_name, "Recibi(mos) de: " %>
+			<%= text_field_tag :client_name, nil,:class => 'form-control', :id=>"client_name" %>
+		</div>
+	</div>
+</div>
+
+<div id="accounts" class="form-group">
+
+</div>
+
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="form-group">
+			<%= label_tag :ammount, "Gs. " %>
+			<%= text_field_tag :ammount, nil,:class => 'form-control' %>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="form-group">
+			<%= label_tag :description, "En concepto de: " %>
+			<%= text_field_tag :description, nil,:class => 'form-control' %>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="form-group">
+			<%= label_tag :number, "Num. de recibo" %>
+			<%= text_field_tag :number, nil,:class => 'form-control' %>
+		</div>
+	</div>
+
+
+	<div class="col-md-3">
+		<div class="form-group">
+			<%= label_tag :date, "Fecha" %>
+			<%= text_field_tag :date, nil,:class => 'form-control datepicker', :value => Time.now.strftime("%Y/%m/%d"), :id => 'datepicker' %>
+		</div>
+	</div>
+</div>
+<%= button_tag "Guardar", :class => 'btn btn-primary form-group' %>
+
+<% end %>

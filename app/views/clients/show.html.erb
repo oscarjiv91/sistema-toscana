@@ -1,0 +1,88 @@
+<% if notice %>
+  <div class="alert alert-success">
+    <%= notice %>
+  </div>
+<%end%>
+
+<div class="row">
+  <div class="col-md-6">
+
+<div class="page-header">
+  <h2> <%= @client.name %></h2>
+</div>
+
+              <strong>CI:</strong>
+              <%= @client.cod %>
+            </p>
+
+            <p>
+              <strong>Nombres:</strong>
+              <%= @client.name %>
+            </p>
+
+            <p>
+              <strong>Apellidos:</strong>
+              <%= @client.last_name %>
+            </p>
+
+            <p>
+              <strong>Dirección:</strong>
+              <%= @client.address %>
+            </p>
+
+            <p>
+              <strong>Dirección Laboral:</strong>
+              <%= @client.job_address %>
+            </p>
+
+            <p>
+              <strong>Obs:</strong>
+              <%= @client.obs %>
+            </p>
+
+            <p>
+              <strong>Teléfono(s):</strong>
+            </p>
+            <p>
+              <ul>
+            <% @phones.each do |phone| %>
+              <li><%= phone.phone %></li>
+            <% end %>
+              </ul>
+            </p>
+      </div>
+
+</div>
+
+<p>
+<%= link_to 'Tel.', client_client_phones_path(@client), :class => "btn btn-default" %> 
+
+<%= link_to 'Editar', edit_client_path(@client), :class => "btn btn-default" %>
+<%= link_to 'Atrás', clients_path, :class => "btn btn-default" %>
+</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Num. Fact.</th>
+      <th>Total</th>
+      <th>Entrega</th>
+      <th>Cuotas</th>
+      <th>Estado</th>
+      <th></th>
+    </tr>
+  </thead>
+<%= @fee_count %>
+  <tbody>
+    <% @current_accounts.each do |ca| %>
+      <tr>
+        <td><%= link_to  ca.client_bill_head.number ,"/client_bill/show/#{ca.client_bill_head.id}" %></td>
+        <td><%= ca.client_bill_head.total %></td>
+        <td><%= ca.client_receipt.where("first_payment = 1").first.ammount %></td>
+        <td><%= ClientFee.where(client_current_account_id: ca.id).count %></td>
+        <td><%= ca.status %></td>
+        <td><%= link_to "Detalles", client_client_current_account_path(@client, ca.id)  %> </td>
+    <% end %>
+  </tbody>
+</table>
+

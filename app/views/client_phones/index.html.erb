@@ -1,0 +1,33 @@
+<div class="page-header">
+  <h2>Teléfonos de  <%= @client.name %></h2>
+</div>
+<div class="row">
+  <div class="col-md-5">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Teléfono</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @client_phones.each do |client_phone| %>
+          <tr>
+            <td><%= client_phone.phone %></td>
+            <td><%= link_to 'Editar', edit_client_client_phone_path(@client, client_phone) %></td>
+            <td><%= link_to 'Eliminar', client_client_phone_path(@client, client_phone), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<%= link_to 'Agregar teléfono', new_client_client_phone_path, :class => "btn btn-primary" %>
+
+<br>
+<br>
+<%= link_to 'Atrás', @client, :class => "btn btn-default" %>

@@ -1,0 +1,45 @@
+<%= form_for(@supplier) do |f| %>
+  <% if @supplier.errors.any? %>
+     <div class="alert alert-danger">
+      <div id="error_explanation">
+        <h2><%= pluralize(@supplier.errors.count, "error") %> prohibited this supplier from being saved:</h2>
+
+        <ul>
+        <% @supplier.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="form-group">
+      <%= f.label :name, "Nombre" %><br>
+      <%= f.text_field :name, :class => "form-control" %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="form-group">
+      <%= f.label :direction, "Dirección" %><br>
+      <%= f.text_field :direction,:class => "form-control" %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="form-group">
+      <%= f.label :phone, "Teléfono" %><br>
+      <%= f.text_field :phone,:class => "form-control" %>
+    </div>
+  </div>
+</div>
+  <div class="actions">
+    <%= f.submit "Guardar", class: 'btn btn-primary' %>
+  </div>
+<% end %>
