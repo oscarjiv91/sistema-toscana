@@ -1,3 +1,6 @@
+<script>
+
+</script>
 
 <% if notice %>
   <div class="alert alert-success">
@@ -18,13 +21,17 @@
   <dd><%= number_with_delimiter(@client_bill.total, delimiter:".") %> Gs.</dd>
 </dl>
 
-
+<% if flash[:alert] %>
+  <div class="alert alert-danger">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
 
 <%= form_tag :controller => :client_bill, :action => :save_payment_plan, :method => 'get' do %>
   <div class="row">
     <div class="form-group col-md-3">
       <%= label_tag "Entrega" %>
-      <%= text_field_tag :first_payment, params[:first_payment], :class => "form-control" %>
+      <%= text_field_tag :first_payment, params[:first_payment], :class => "form-control", :value =>0 %>
     </div>
     <div class="form-group col-md-3">
       <%= label_tag "Num. Recibo" %>
@@ -44,7 +51,7 @@
     <div class="cuotas">
       <div class="form-group col-md-3">
         <%= label_tag "Monto de cuota" %>
-        <%= text_field_tag :ammount, params[:ammount], :class => "form-control" %>
+        <%= text_field_tag :ammount, params[:ammount], :class => "form-control", :value => 0 %>
       </div>
     </div>
    </div>
@@ -55,7 +62,7 @@
     </div>
     <div class="cuotas">
       <div class="form-group col-md-3">
-        <%= text_field_tag :ammount2, params[:ammount2], :class => "form-control " %>
+        <%= text_field_tag :ammount2, params[:ammount2], :class => "form-control ", :value => 0 %>
       </div>
     </div>
    </div>
@@ -66,7 +73,7 @@
     </div>
     <div class="cuotas">
       <div class="form-group col-md-3">
-        <%= text_field_tag :ammount3, params[:ammount3], :class => "form-control " %>
+        <%= text_field_tag :ammount3, params[:ammount3], :class => "form-control ", :value => 0 %>
       </div>
     </div>
    </div>

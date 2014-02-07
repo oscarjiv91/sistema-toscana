@@ -66,7 +66,6 @@
     <tr>
       <th>Num. Fact.</th>
       <th>Total</th>
-      <th>Entrega</th>
       <th>Cuotas</th>
       <th>Estado</th>
       <th></th>
@@ -78,7 +77,6 @@
       <tr>
         <td><%= link_to  ca.client_bill_head.number ,"/client_bill/show/#{ca.client_bill_head.id}" %></td>
         <td><%= ca.client_bill_head.total %></td>
-        <td><%= ca.client_receipt.where("first_payment = 1").first.ammount %></td>
         <td><%= ClientFee.where(client_current_account_id: ca.id).count %></td>
         <td><%= ca.status %></td>
         <td><%= link_to "Detalles", client_client_current_account_path(@client, ca.id)  %> </td>

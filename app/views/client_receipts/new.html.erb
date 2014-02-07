@@ -1,6 +1,7 @@
 <script>
 $(document).ready(function() {
 
+	setConfigurations();
 	// Autocomplete client
 	$('#client_name').autocomplete({
 		params: {query: $("#client_name").val()},
@@ -11,6 +12,7 @@ $(document).ready(function() {
 	    	return (suggestion.value + " " + suggestion.last_name)
 	    },
 	    onSelect: function (suggestion) {
+	    	$('#client_name').val(suggestion.value + " " + suggestion.last_name)
 	    	$.ajax({
 	    		url: "/client_receipts/get_accounts",
 	    		type: "GET",
@@ -23,14 +25,14 @@ $(document).ready(function() {
 	                       $("#accounts" ).append("<ul>")
 	                       for(var k in data) {
 							   //alert( data[k].id);
-							   $("#accounts" ).append("<li>"+"Factura " + data[k].client_bill_head_id +" "+"<input type=\"radio\" name=\"account\" value=\""+data[k].id+"\">" +"</li>");
+							   $("#accounts" ).append("<li>"+"Factura " + data[k].number +" "+"<input type=\"radio\" name=\"account\" value=\""+data[k].id+"\">" +"</li>");
 							}
 	                   		$("#accounts" ).append("</ul>")	
 	                       },
 	              error: function(xhr, status, error) {
 						  //var err = eval("(" + xhr.responseText + ")");
 						  //alert(err.Message);
-						  alert("Ingrese correctamente los valores. Elija un producto existente.");
+						  alert("Elija un cliente ya existente.");
 						  },
 
 	    	});
@@ -48,6 +50,12 @@ $(document).ready(function() {
 <div class="page-header">
   <h2>Generar recibo</h2>
 </div>
+
+<% if flash[:alert] %>
+    <div class="alert alert-danger">
+		<%= flash[:alert] %>
+	</div>
+<% end %>
 
 <%= form_tag('/client_receipts/create') do %>
 
@@ -78,7 +86,7 @@ $(document).ready(function() {
 	<div class="col-md-6">
 		<div class="form-group">
 			<%= label_tag :description, "En concepto de: " %>
-			<%= text_field_tag :description, nil,:class => 'form-control' %>
+			<%= text_field_tag :description, nil,:class => 'form-control', :value => "A cuenta de factura num. " %>
 		</div>
 	</div>
 </div>

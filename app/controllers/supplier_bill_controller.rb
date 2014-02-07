@@ -7,7 +7,6 @@ class SupplierBillController < ApplicationController
   def new
   	@head = SupplierBillHead.new
   	@body = SupplierBillBody.new
-
     # select every body_temp from that IP
     @body_temps = BillBodyTemp.where(user_id: request.remote_ip)
   end
@@ -27,7 +26,10 @@ class SupplierBillController < ApplicationController
         # put an error message
       end
     else
-      redirect_to supplier_bills_new_path
+      #redirect_to "/supplier_bill/new"
+      respond_to do |format|
+        format.html { redirect_to "/supplier_bill/new", alert: 'Complete correctamente todos los campos de la cabecera.' }
+      end
     end
   end
 

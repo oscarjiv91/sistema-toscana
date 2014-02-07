@@ -1,3 +1,4 @@
+
 <div class="page-header">
   <h2>Detalle de cuenta de <%= @client.name %></h2>
 </div>
@@ -51,7 +52,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @account_detail.client_receipt.each do |r| %>
+    <% @account_detail.client_receipt.order("id ASC").each do |r| %>
       <tr>
         <td><%= r.number %></td>
         <td><%= number_with_delimiter(r.ammount, delimiter: ".") %></td>

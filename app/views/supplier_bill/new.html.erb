@@ -2,6 +2,7 @@
 <script>
 $(document).ready(function() {
 
+	setConfigurations();
 	// Update total
 	// $("#total").val(<%= @body_temps.sum("quantity * price") %>);     
 	// It's called here so you can delete after html loads.
@@ -125,8 +126,16 @@ function MakeDeleteButtonWork(){
 		<%= render(:partial => 'table', :locals => {:body_temp => @body_temp}) %>
 	</div>
 
+
 <!-- Bill_head  -->
 <h1><small>Detalles de cabecera</small></h1>
+<% if flash[:alert] %>
+   	 <div class="alert alert-danger">
+     	<div id="error_explanation">
+			<%= flash[:alert] %>
+		</div>
+	</div>
+<% end %>
 
 <div class="well">
 		<%= form_for :head, :url => "/supplier_bill/save" do |f| %>

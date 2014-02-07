@@ -1,6 +1,8 @@
 <script>
 $(document).ready(function() {
 
+	setConfigurations();
+
 	// Update total
 	$("#total").val(<%= @body_temps.sum("quantity * price") %>); 
 
@@ -161,6 +163,14 @@ function updateTotal(){
 
 <!-- Bill_head  -->
 <h1><small>Detalles de cabecera</small></h1>
+
+<% if flash[:alert] %>
+   	 <div class="alert alert-danger">
+     	<div id="error_explanation">
+			<%= flash[:alert] %>
+		</div>
+	</div>
+<% end %>
 
 <div class="well">
 		<%= form_for :head, :url => "/client_bill/save" do |f| %>

@@ -15,7 +15,9 @@
 //= require turbolinks
 //= require_tree .
 
-$(document).ready(function() {
+// $(document).ready(function() {
+
+function setConfigurations(){
 
 	$(".blocked").keydown(function(event) {                                     // para que se ingrese solo numeros
 			// Allow only backspace and delete
@@ -38,6 +40,6 @@ $(document).ready(function() {
       		dateFormat:"yy/mm/dd"
     });
     
-
-});
+}
+// });
 

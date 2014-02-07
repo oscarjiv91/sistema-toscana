@@ -34,7 +34,9 @@ protect_from_forgery with: :null_session
           redirect_to "/client_bill/index"
       end
     else
-      redirect_to supplier_bills_new_path
+      respond_to do |format|
+        format.html { redirect_to "/client_bill/new", alert: 'Complete correctamente todos los campos de la cabecera.' }
+      end
     end
   end
 
@@ -49,10 +51,19 @@ protect_from_forgery with: :null_session
     @ammount1 = params[:ammount]
     @quantity2 = params[:quantity2]
     @ammount2 = params[:ammount2]
-    @quantity3 = params[:quantit3]
+    @quantity3 = params[:quantity3]
     @ammount3 = params[:ammount3]
     @expiration_date = Date.strptime(params[:expiration_date], "%Y/%m/%d")
 
+    @current_account = ClientCurrentAccount.find(params[:current_account_id])
+    # Check total ammount
+    sum = @quantity1.to_i * @ammount1.to_i + @quantity2.to_i * @ammount2.to_i + @ammount3.to_i * @quantity3.to_i + params[:first_payment].to_i
+    if !(sum == ClientBillHead.find(@current_account.client_bill_head_id).total)
+       respond_to do |format|
+             format.html { redirect_to payment_plan_path(params[:current_account_id]), alert: "La suma de las cuotas y la entrega no coincide con el monto total." }     
+        end
+        return
+    end
     # Saves the client fee
     @expiration_date.to_time
     @quantity1.to_i.times do |q|
@@ -76,9 +87,20 @@ protect_from_forgery with: :null_session
     end
 
     # Save the receipt
-    @receipt = ClientReceipt.new(:ammount => params[:first_payment], :client_id => params[:client_id], :number => params[:receipt], :client_current_account_id => params[:current_account_id], :description => params[:description], :date => Time.now.strftime("%Y/%m/%d"), :first_payment => 1)
-    @receipt.save
-    redirect_to root_url
+    if (params[:first_payment].to_i > 0)
+      @receipt = ClientReceipt.new(:ammount => params[:first_payment], :client_id => params[:client_id], :number => params[:receipt], :client_current_account_id => params[:current_account_id], :description => params[:description], :date => Time.now.strftime("%Y/%m/%d"), :first_payment => 1)
+      if !@receipt.save
+          respond_to do |format|
+             format.html { redirect_to payment_plan_path(params[:current_account_id]), alert: 'Complete los campos de recibo. Si no hay entrega, deje el campo "Entrega" en 0' }     
+          end
+          return
+      end
+    end
+
+    # Redirect to that client
+    @clients = Client.find(@current_account.client_id)
+    redirect_to @clients
+
   end
 
   def add_to_temp
