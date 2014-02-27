@@ -4,7 +4,7 @@ class ClientsController < ApplicationController
   # GET /clients
   # GET /clients.json
   def index
-    @clients = Client.all
+    @clients = Client.search(params[:id], params[:search], params[:obs]).order('last_name ASC').order('name ASC').paginate(:page => params[:page], :per_page => 50)
   end
 
   # GET /clients/1
@@ -38,6 +38,11 @@ class ClientsController < ApplicationController
       end
     end
   end
+
+  def overdue_payments
+    @clients = Client.getOverduePayers
+
+  end 
 
   # PATCH/PUT /clients/1
   # PATCH/PUT /clients/1.json

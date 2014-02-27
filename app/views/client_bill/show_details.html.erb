@@ -1,6 +1,10 @@
 <div class="page-header">
 	<h2>Detalles de la factura <%= @client_bill_head.number %></h2>
 </div>
+
+<% if @client_bill_head.client_id %><p><strong>Cliente:</strong> <%= Client.find(@client_bill_head.client_id).name%> <%= Client.find(@client_bill_head.client_id).last_name %> </p> <% end %>
+<p><strong>Total:</strong> <%=number_with_delimiter(@client_bill_head.total, delimiter: ".") %> </p>
+<p><strong>Tipo: </strong> <%= @client_bill_head.type %> </p>
 <% if !@records.empty? %>
 <div style="padding-top: 5%">
 	<table class="table table-bordered">

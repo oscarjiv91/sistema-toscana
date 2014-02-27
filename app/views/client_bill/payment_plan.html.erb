@@ -1,5 +1,7 @@
 <script>
-
+$(document).ready(function() {
+  setConfigurations();
+});
 </script>
 
 <% if notice %>
@@ -81,7 +83,7 @@
   <div class="row">
     <div class="form-group col-md-4">
       <%= label_tag "Vencimiento de 1ra cuota" %>
-      <%= text_field_tag :expiration_date, params[:expiration_date], :class => "form-control", :value => Time.now.strftime("%Y/%m/%d") %>
+      <%= text_field_tag :expiration_date, params[:expiration_date], :class => "form-control datepicker", :value => (Time.now + 1.month).strftime("%Y/%m/%d") %>
     </div>
    </div>
 

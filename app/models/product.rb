@@ -11,8 +11,8 @@ class Product < ActiveRecord::Base
 
 	
 	def self.search(search, category)
-	  if search
-	    query_obj = Product.all
+	  if !search.blank? || !category.blank?
+	    #query_obj = Product.all
 		query_obj = where("name ILIKE ? OR cod ILIKE ?", "%#{search}%", "%#{search}%") unless search.blank?
 		if !category.blank?
 			query_obj = where("category_id = ? AND (name ILIKE ? OR cod ILIKE ?)", "#{category}", "%#{search}%", "%#{search}%")

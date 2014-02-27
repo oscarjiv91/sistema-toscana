@@ -14,7 +14,6 @@
    </div>
 <% end %>
 
-
 <table class="table table-hover">
   <thead>
     <tr>      
@@ -31,7 +30,7 @@
     <% @supplier_bills.each do |sp| %>
       <tr>
         <td><%= sp.number %></td>
-        <td><%= sp.date %></td>
+        <td><%= sp.date.strftime("%d %b %Y") %></td>
         <td><%=  number_with_delimiter( (number_with_precision(sp.total, precision: 0)), delimiter: ".") %></td>
         <td><%= sp.supplier.name %></td>
         <td><%= link_to 'Ver',  "/supplier_bill/show/#{sp.id}" %></td>

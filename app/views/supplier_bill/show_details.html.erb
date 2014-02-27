@@ -3,7 +3,7 @@
 </div>
 
 <p><strong>Proveedor: </strong> <%= Supplier.find(@supplier_bill_head.supplier_id).name %></p>
-<p><strong>Total:</strong> <%=number_with_delimiter(@supplier_bill_head.total, delimiter: ".") %> </p>
+<p><strong>Total:</strong> <%=number_with_delimiter(number_with_precision(@supplier_bill_head.total, precision: 0), delimiter: ".") %> </p>
 <p><strong>Tipo: </strong> <%= @supplier_bill_head.type %> </p>
 
 <% if !@records.empty? %>

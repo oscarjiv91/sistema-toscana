@@ -27,7 +27,7 @@
     <% @client_bills.each do |sp| %>
       <tr>
         <td><%= sp.number %></td>
-        <td><%= sp.date %></td>
+        <td><%= sp.date.strftime("%d-%m-%Y") %></td>
         <td><%= number_with_delimiter(sp.total, delimiter: ".") %></td>
         <td><%= link_to 'Ver', "show/#{sp.id}" %></td>
         <td><%= link_to 'Eliminar', sp, method: :delete, data: { confirm: 'Are you sure?' } %></td>

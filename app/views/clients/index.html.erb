@@ -1,16 +1,31 @@
 <div class="page-header">
   <h2>Lista de clientes</h2>
 </div>
-<%= link_to 'Nuevo cliente', new_client_path, :class => "btn btn-primary pull-right" %>
+
+<%= form_tag clients_path, :method => 'get' do %>
+  <div class="row">
+    <div class="form-group col-md-3">
+      <%= text_field_tag :id, params[:id], :class => "form-control", :placeholder => "cédula o RUC..." %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= text_field_tag :search, params[:search], :class => "form-control", :placeholder => "nombre o apellido..." %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= text_field_tag :obs, params[:obs], :class => "form-control", :placeholder => "descripción..." %>
+    </div>
+    <%= submit_tag "Buscar", :name => nil, :class => "btn btn-default" %>
+    <%= link_to 'Nuevo cliente', new_client_path, :class => "btn btn-primary pull-right" %>
+   </div>
+<% end %>
+
 <table class="table">
   <thead>
     <tr>
-      <th>Cód</th>
+      <th>Cédula o RUC</th>
       <th>Apellido</th>
       <th>Nombre</th>
-      <th>Address</th>
-      <th>Job address</th>
-      <th>Obs</th>
+      <th>Dirección</th>
+      <th>Observación</th>
       <th></th>
       <th></th>
       <th></th>
@@ -24,7 +39,6 @@
         <td><%= client.last_name %></td>
         <td><%= client.name %></td>
         <td><%= client.address %></td>
-        <td><%= client.job_address %></td>
         <td><%= client.obs %></td>
         <td><%= link_to 'Más...', client %></td>
         <td><%= link_to 'Editar', edit_client_path(client) %></td>
@@ -34,4 +48,4 @@
   </tbody>
 </table>
 
-<br>
+<%= will_paginate @products %>

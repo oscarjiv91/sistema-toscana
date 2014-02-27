@@ -32,39 +32,32 @@ class ClientPhonesController < ApplicationController
     @client = Client.find(params[:client_id])
     @client_phone = ClientPhone.new(client_phone_params)
 
-    respond_to do |format|
       if @client_phone.save
-        format.html { redirect_to @client_phone, notice: 'Client phone was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @client_phone }
+        # format.html { redirect_to @client_phone, notice: 'Client phone was successfully created.' }
+        # format.json { render action: 'show', status: :created, location: @client_phone }
+        redirect_to @client
       else
-        format.html { render action: 'new' }
-        format.json { render json: @client_phone.errors, status: :unprocessable_entity }
+        # format.html { render action: 'new' }
+        # format.json { render json: @client_phone.errors, status: :unprocessable_entity }
       end
-    end
   end
 
   # PATCH/PUT /client_phones/1
   # PATCH/PUT /client_phones/1.json
   def update
-    respond_to do |format|
       if @client_phone.update(client_phone_params)
-        format.html { redirect_to @client_phone, notice: 'Client phone was successfully updated.' }
-        format.json { head :no_content }
+      redirect_to "/clients"
       else
-        format.html { render action: 'edit' }
-        format.json { render json: @client_phone.errors, status: :unprocessable_entity }
+        # format.html { render action: 'edit' }
+        # format.json { render json: @client_phone.errors, status: :unprocessable_entity }
       end
-    end
   end
 
   # DELETE /client_phones/1
   # DELETE /client_phones/1.json
   def destroy
     @client_phone.destroy
-    respond_to do |format|
-      format.html { redirect_to client_phones_url }
-      format.json { head :no_content }
-    end
+    redirect_to "/clients"
   end
 
   private

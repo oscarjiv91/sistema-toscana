@@ -5,14 +5,14 @@
 <%end%>
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-9">
 
 <div class="page-header">
-  <h2> <%= @client.name %></h2>
+  <h2> <%= @client.name %> <%= @client.last_name %></h2>
 </div>
 
               <strong>CI:</strong>
-              <%= @client.cod %>
+              <%= number_with_delimiter(@client.cod, delimiter: ".") %>
             </p>
 
             <p>
@@ -61,7 +61,7 @@
 <%= link_to 'Atrás', clients_path, :class => "btn btn-default" %>
 </p>
 
-<table class="table">
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Num. Fact.</th>
@@ -76,7 +76,7 @@
     <% @current_accounts.each do |ca| %>
       <tr>
         <td><%= link_to  ca.client_bill_head.number ,"/client_bill/show/#{ca.client_bill_head.id}" %></td>
-        <td><%= ca.client_bill_head.total %></td>
+        <td><%= number_with_delimiter(ca.client_bill_head.total, :delimiter => ".") %></td>
         <td><%= ClientFee.where(client_current_account_id: ca.id).count %></td>
         <td><%= ca.status %></td>
         <td><%= link_to "Detalles", client_client_current_account_path(@client, ca.id)  %> </td>

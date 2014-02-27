@@ -1,9 +1,12 @@
-<p id="notice"><%= notice %></p>
-
+<% if notice %>
+  <div class="alert alert-success">
+    <%= notice %>
+  </div>
+<%end%>
 <p>
   <strong>Iva:</strong>
   <%= @iva.iva %>
 </p>
 
-<%= link_to 'Edit', edit_iva_path(@iva) %> |
-<%= link_to 'Back', ivas_path %>
+<%= link_to 'Editar', edit_iva_path(@iva), :class => "btn btn-default"  %> |
+<%= link_to 'Atrás', ivas_path, :class => "btn btn-default"  %>

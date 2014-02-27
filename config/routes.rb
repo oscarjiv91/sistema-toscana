@@ -7,7 +7,12 @@ Sistema::Application.routes.draw do
   resources :clients do
     resources :client_phones
     resources :client_current_accounts
+    collection do
+        get :overdue_payments
+    end
   end
+
+
 
   resources :user_groups
 

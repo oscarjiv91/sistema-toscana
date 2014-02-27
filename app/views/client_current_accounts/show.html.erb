@@ -1,6 +1,6 @@
 
 <div class="page-header">
-  <h2>Detalle de cuenta de <%= @client.name %></h2>
+  <h2>Detalle de cuenta de <%= @client.name %> <%= @client.last_name %></h2>
 </div>
 
 <!-- Data about current account -->
@@ -17,7 +17,7 @@
 
 <!-- Table -->
 <h1><small>Cuotas</small></h1>
-<table class="table">
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Monto</th>
@@ -31,9 +31,9 @@
     <% @account_detail.client_fees.order('id ASC').each do |f| %>
       <tr>
         <td><%= number_with_delimiter(f.ammount, delimiter: ".") %></td>
-        <td><%= f.expiration_date %></td>
-        <td><%= f.payment_date %></td>
-        <td><%= f.ammount_paid %></td>  
+        <td><%= f.expiration_date.strftime("%d-%m-%Y") %></td>
+        <td><% if f.payment_date %><%= f.payment_date.strftime("%d-%m-%Y") %><% end %></td>
+        <td><%= number_with_delimiter(f.ammount_paid, delimiter: ".") %></td>  
         <td><% if !f.client_receipt.nil? %><%= f.client_receipt.number %> <% end %></td>
     <% end %>
   </tbody>
@@ -41,7 +41,7 @@
 
 <!-- Lista de recibos ligadas a esta cuenta -->
 <h1><small>Recibos de esta cuenta</small></h1>
-<table class="table">
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Num. Recibo</th>
